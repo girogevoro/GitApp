@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginCards">15dp</dimen>
+    <dimen name="minSizeCards">125dp</dimen>
+    <dimen name="radiusCards">15dp</dimen>
+    <dimen name="paddingCards">15dp</dimen>
+</resources>

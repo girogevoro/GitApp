@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.data
+package com.girogevoro.gitapp.data.users_repo
 
 import android.os.Handler
 import android.os.Looper
