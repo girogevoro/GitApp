@@ -11,9 +11,9 @@ class FakeUserRepoImpl : UsersRepo {
     }
 
     private val data: List<UserEntity> = listOf(
-        UserEntity("one", 1, "url1"),
-        UserEntity("two", 2, "url2"),
-        UserEntity("three", 3, "url3")
+        UserEntity("one", 1, "https://avatars.githubusercontent.com/u/1?v=4"),
+        UserEntity("two", 2, "https://avatars.githubusercontent.com/u/2?v=4"),
+        UserEntity("three", 3, "https://avatars.githubusercontent.com/u/3?v=4")
     )
 
     override fun getUsers(onSuccess: (List<UserEntity>) -> Unit, onError: ((Throwable) -> Unit)?) {
