@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.girogevoro.gitapp">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitApp"
         tools:targetApi="33">
+        <activity
+            android:name=".ui.userInfo.UserInfoActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.users.MainActivity"
             android:exported="true">
