@@ -8,13 +8,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.girogevoro.app
 import com.girogevoro.gitapp.databinding.ActivityMainBinding
 import com.girogevoro.gitapp.domian.entities.UserEntity
-import com.girogevoro.gitapp.domian.repos.UsersRepo
+import com.girogevoro.gitapp.ui.userInfo.UserInfoActivityContract
+
 
 class MainActivity : AppCompatActivity(), UsersContract.View {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private val adapter = UsersAdapter()
-    private val usersRepo: UsersRepo by lazy { app.usersRepo }
+
+    private val activityLauncher = registerForActivityResult(UserInfoActivityContract()) {
+        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+    }
 
     private lateinit var presenter: UsersContract.Presenter
 
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
 
     override fun showUsers(users: List<UserEntity>) {
         adapter.setData(users)
+        activityLauncher.launch(users[0])
     }
 
 
