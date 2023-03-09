@@ -1,7 +1,5 @@
 package com.girogevoro.gitapp.data.users_repo
 
-import android.os.Handler
-import android.os.Looper
 import com.girogevoro.gitapp.domian.entities.UserEntity
 import com.girogevoro.gitapp.domian.repos.UsersRepo
 import retrofit2.Call
@@ -30,15 +28,13 @@ class UsersRepoImpl : UsersRepo {
                 call: Call<List<UserEntity>>,
                 response: Response<List<UserEntity>>
             ) {
-                Handler(Looper.getMainLooper()).post {
+                if (response.isSuccessful) {
                     onSuccess(response.body()!!)
                 }
             }
 
             override fun onFailure(call: Call<List<UserEntity>>, t: Throwable) {
-                Handler(Looper.getMainLooper()).post {
-                    onError?.invoke(t)
-                }
+                onError?.invoke(t)
             }
 
         })
