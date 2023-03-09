@@ -4,7 +4,7 @@ import com.girogevoro.gitapp.domian.entities.UserEntity
 
 interface UsersContract {
     interface View{
-        fun showUsers(users: List<UserEntity>)
+        fun updateUserList()
         fun showProgress(inProgress: Boolean)
         fun showError(throwable: Throwable)
     }
@@ -14,6 +14,8 @@ interface UsersContract {
         fun detach()
 
         fun getUsers()
+
+        fun getRecyclePresenter():RecyclerUserContract.PresenterHolder
     }
 
 }

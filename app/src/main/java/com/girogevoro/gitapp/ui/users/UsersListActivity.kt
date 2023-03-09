@@ -24,24 +24,24 @@ class UsersListActivity : AppCompatActivity(), UsersContract.View {
 
     private var _binding: ActivityUsersListBinding? = null
     private val binding get() = _binding!!
-    private val adapter = UsersAdapter()
-
     private val navigatorHolder = App.instance.navigatorHolder
+
     private val navigator = NavigatorOnlyActivity(this)
 
-
     private lateinit var presenter: UsersContract.Presenter
+    private lateinit var adapter: UsersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityUsersListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        presenter = extractPresenter()
+        presenter.attach(this)
+        adapter = UsersAdapter(presenter.getRecyclePresenter())
+
 
         initView()
 
-
-        presenter = extractPresenter()
-        presenter.attach(this)
     }
 
 
@@ -79,8 +79,8 @@ class UsersListActivity : AppCompatActivity(), UsersContract.View {
         binding.usersRecyclerView.adapter = adapter
     }
 
-    override fun showUsers(users: List<UserEntity>) {
-        adapter.setData(users)
+    override fun updateUserList() {
+        adapter.notifyDataSetChanged()
     }
 
 

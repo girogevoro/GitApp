@@ -34,5 +34,10 @@ class UserInfoActivity : AppCompatActivity() {
             )
             finish()
         }
+
+        val userEntity = intent.getParcelableExtra<UserEntity>(USER)
+        binding.loginTextView.text = userEntity?.login
+        binding.uidTextView.text = userEntity?.id.toString()
+
     }
 }

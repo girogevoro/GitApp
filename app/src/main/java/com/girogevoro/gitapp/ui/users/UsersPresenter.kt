@@ -8,15 +8,26 @@ import com.github.terrakok.cicerone.Router
 class UsersPresenter(
     private val router: Router,
     private val screensApp: ScreensApp,
-    private val usersRepo: UsersRepo
+    private val usersRepo: UsersRepo,
+    val recyclerPresenter: RecyclerPresenter = RecyclerPresenter()
 ) : UsersContract.Presenter {
     var view: UsersContract.View? = null
     var inProcess: Boolean = false
     var users: List<UserEntity>? = null
 
+    init {
+        recyclerPresenter.setListenerClick {
+            onOpenUserInfo(it)
+        }
+    }
+
+
     override fun attach(view: UsersContract.View) {
         this.view = view
-        users?.let { view.showUsers(it) }
+        users?.let {
+            recyclerPresenter.data.clear()
+            recyclerPresenter.data.addAll(users!!)
+        }
         view.showProgress(inProcess)
     }
 
@@ -29,11 +40,10 @@ class UsersPresenter(
         usersRepo.getUsers(
             onSuccess = {
                 view?.showProgress(false)
-                view?.showUsers(it)
+                recyclerPresenter.data.clear()
+                recyclerPresenter.data.addAll(it)
                 inProcess = false
                 users = it
-
-                onOpenUserInfo(it[0])
             },
             onError = {
                 view?.showProgress(false)
@@ -41,6 +51,10 @@ class UsersPresenter(
                 inProcess = false
             }
         )
+    }
+
+    override fun getRecyclePresenter(): RecyclerUserContract.PresenterHolder {
+        return recyclerPresenter
     }
 
     fun onBackPressed() {
