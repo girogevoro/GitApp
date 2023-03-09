@@ -20,7 +20,7 @@
             android:name=".ui.userInfo.UserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.users.MainActivity"
+            android:name="com.girogevoro.gitapp.ui.users.UsersListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
