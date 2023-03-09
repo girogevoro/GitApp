@@ -7,10 +7,6 @@ class UsersAdapter(private val presenter: RecyclerUserContract.PresenterHolder) 
     RecyclerView.Adapter<UserViewHolder>() {
 
 
-    init {
-        setHasStableIds(true)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(parent)
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
