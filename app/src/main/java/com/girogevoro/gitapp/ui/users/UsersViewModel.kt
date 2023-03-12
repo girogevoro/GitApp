@@ -1,19 +1,25 @@
 package com.girogevoro.gitapp.ui.users
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.girogevoro.gitapp.domian.entities.UserEntity
 import com.girogevoro.gitapp.domian.repos.UsersRepo
 import com.girogevoro.gitapp.ui.navigation.ScreensApp
+import com.girogevoro.gitapp.utils.mutable
 import com.github.terrakok.cicerone.Router
 
-class UsersPresenter(
+class UsersViewModel(
     private val router: Router,
     private val screensApp: ScreensApp,
     private val usersRepo: UsersRepo,
-    val recyclerPresenter: RecyclerPresenter = RecyclerPresenter()
-) : UsersContract.Presenter {
-    var view: UsersContract.View? = null
-    var inProcess: Boolean = false
-    var users: List<UserEntity>? = null
+    val recyclerPresenter: RecyclerPresenter = RecyclerPresenter(),
+) : ViewModel(), UsersContract.ViewModel {
+
+    override val updateUserListLiveData: LiveData<List<UserEntity>> = MutableLiveData()
+    override val showProgressLiveData: LiveData<Boolean> = MutableLiveData()
+    override val showErrorLiveData: LiveData<Throwable> = MutableLiveData()
+
 
     init {
         recyclerPresenter.setListenerClick {
@@ -22,33 +28,18 @@ class UsersPresenter(
     }
 
 
-    override fun attach(view: UsersContract.View) {
-        this.view = view
-        users?.let {
-            recyclerPresenter.data.clear()
-            recyclerPresenter.data.addAll(users!!)
-        }
-        view.showProgress(inProcess)
-    }
-
-    override fun detach() {
-        view = null
-    }
-
     override fun getUsers() {
-        view?.showProgress(true)
+        showProgressLiveData.mutable().postValue(true)
         usersRepo.getUsers(
             onSuccess = {
-                view?.showProgress(false)
+                showProgressLiveData.mutable().postValue(false)
                 recyclerPresenter.data.clear()
                 recyclerPresenter.data.addAll(it)
-                inProcess = false
-                users = it
+                updateUserListLiveData.mutable().postValue(it)
             },
             onError = {
-                view?.showProgress(false)
-                view?.showError(it)
-                inProcess = false
+                showProgressLiveData.mutable().postValue(false)
+                showErrorLiveData.mutable().postValue(it)
             }
         )
     }

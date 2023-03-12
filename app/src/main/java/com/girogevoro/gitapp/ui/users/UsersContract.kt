@@ -1,21 +1,16 @@
 package com.girogevoro.gitapp.ui.users
 
+import androidx.lifecycle.LiveData
 import com.girogevoro.gitapp.domian.entities.UserEntity
 
 interface UsersContract {
-    interface View{
-        fun updateUserList()
-        fun showProgress(inProgress: Boolean)
-        fun showError(throwable: Throwable)
-    }
-
-    interface Presenter{
-        fun attach(view: View)
-        fun detach()
+    interface ViewModel {
+        val updateUserListLiveData: LiveData<List<UserEntity>>
+        val showProgressLiveData:LiveData<Boolean>
+        val showErrorLiveData:LiveData<Throwable>
 
         fun getUsers()
-
-        fun getRecyclePresenter():RecyclerUserContract.PresenterHolder
+        fun getRecyclePresenter(): RecyclerUserContract.PresenterHolder
     }
 
 }
