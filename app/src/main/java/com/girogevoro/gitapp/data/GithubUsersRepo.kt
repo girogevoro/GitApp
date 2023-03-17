@@ -1,4 +1,6 @@
-package com.girogevoro.gitapp.domain
+package com.girogevoro.gitapp.data
+
+import com.girogevoro.gitapp.domain.GithubUser
 
 class GithubUsersRepo {
     private val repositories = listOf(
