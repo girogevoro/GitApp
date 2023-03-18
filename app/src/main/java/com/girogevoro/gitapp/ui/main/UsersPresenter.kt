@@ -1,9 +1,10 @@
 package com.girogevoro.gitapp.ui.main
 
-import com.girogevoro.gitapp.domain.GithubUser
 import com.girogevoro.gitapp.data.GithubUsersRepo
+import com.girogevoro.gitapp.domain.GithubUser
 import com.girogevoro.gitapp.ui.screens.IScreens
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(
@@ -22,6 +23,7 @@ class UsersPresenter(
         }
     }
 
+    var disposable: Disposable? = null
     val usersListPresenter = UsersListPresenter()
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -33,14 +35,25 @@ class UsersPresenter(
         }
     }
 
-    fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+    private fun loadData() {
+        disposable = usersRepo.getUsers().subscribe(
+            {
+                usersListPresenter.users.addAll(it)
+                viewState.updateList()
+            },
+            {
+                it.printStackTrace()
+            })
+
     }
 
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }
