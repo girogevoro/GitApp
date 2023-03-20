@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">convertImage</string>
+    <string name="convert">convert</string>
+    <string name="message_error">Ошибка</string>
+    <string name="message_success">Успешно</string>
+    <string name="message_converting">Идет конвертация</string>
+    <string name="message_loading">Загрузка</string>
+
 </resources>
