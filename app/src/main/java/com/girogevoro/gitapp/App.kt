@@ -4,6 +4,8 @@ import android.app.Application
 import android.util.Log
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.girogevoro.gitapp.data.GitHubApi
+import com.girogevoro.gitapp.data.GithubUsersRepoImpl
+import com.girogevoro.gitapp.domain.GithubUsersRepo
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.google.gson.FieldNamingPolicy
@@ -66,5 +68,7 @@ class App : Application() {
             .create(GitHubApi::class.java)
     }
 
-
+    val githubUsersRepo: GithubUsersRepo by lazy {
+        GithubUsersRepoImpl(instance.gitHubApi)
+    }
 }

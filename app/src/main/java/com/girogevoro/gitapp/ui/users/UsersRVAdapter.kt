@@ -1,9 +1,11 @@
-package com.girogevoro.gitapp.ui.main
+package com.girogevoro.gitapp.ui.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.girogevoro.gitapp.databinding.ItemUserBinding
+import com.girogevoro.gitapp.domain.GithubUser
+import com.girogevoro.gitapp.utils.loadImage
 
 class UsersRVAdapter(private val presenter: IUserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
@@ -25,9 +27,14 @@ class UsersRVAdapter(private val presenter: IUserListPresenter) :
 
     inner class ViewHolder(val vb: ItemUserBinding) :
         RecyclerView.ViewHolder(vb.root), UserItemView {
-        override var pos = -1
-        override fun setLogin(text: String) = with(vb) {
-            tvLogin.text = text
+
+        override fun setGitUser(gitHunUser: GithubUser) {
+            with(vb) {
+                loginTextView.text = gitHunUser.login
+                avatarImageView.loadImage(gitHunUser.avatarUrl)
+            }
         }
+
+        override var pos = -1
     }
 }

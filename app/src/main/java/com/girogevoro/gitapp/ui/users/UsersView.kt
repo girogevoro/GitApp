@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.ui.main
+package com.girogevoro.gitapp.ui.users
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

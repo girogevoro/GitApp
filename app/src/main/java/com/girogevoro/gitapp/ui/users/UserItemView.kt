@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.ui.main
+package com.girogevoro.gitapp.ui.users
 
 import com.girogevoro.gitapp.domain.GithubUser
 

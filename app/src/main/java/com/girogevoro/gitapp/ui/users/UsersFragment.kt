@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.ui.main
+package com.girogevoro.gitapp.ui.users
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.girogevoro.App
 import com.girogevoro.gitapp.databinding.FragmentUsersBinding
-import com.girogevoro.gitapp.data.GithubUsersRepo
+import com.girogevoro.gitapp.data.GithubUsersRepoImpl
 import com.girogevoro.gitapp.ui.BackButtonListener
 import com.girogevoro.gitapp.ui.screens.AndroidScreens
 import moxy.MvpAppCompatFragment
@@ -18,8 +18,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens())
+    private val presenter: UsersPresenter by moxyPresenter {
+        UsersPresenter(App.instance.githubUsersRepo, App.instance.router, AndroidScreens())
     }
     var adapter: UsersRVAdapter? = null
     private var vb: FragmentUsersBinding? = null

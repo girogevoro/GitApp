@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.ui.main
+package com.girogevoro.gitapp.ui.users
 
 interface IListPresenter<V : IItemView> {
     var itemClickListener: ((V) -> Unit)?

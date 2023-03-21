@@ -16,7 +16,7 @@ class GithubUsersRepoImpl(private val gitHubApi: GitHubApi) : GithubUsersRepo {
             }
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
-    override fun getUserById(login: String): Single<GithubUser> =
+    override fun getUser(login: String): Single<GithubUser> =
         gitHubApi.getUser(login).map {
             it.get()
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
