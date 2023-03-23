@@ -38,7 +38,7 @@ class UserDetailsPresenter(
 
 
     private fun setRepoList(githubUser: GithubUser) {
-        githubUser.reposUrl.let {
+        githubUser.let {
             githubUsersRepo.getUserRepos(it)
                 .subscribe(
                     { userRepoListIn ->

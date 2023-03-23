@@ -1,30 +1,61 @@
 package com.girogevoro.gitapp.data
 
+import com.girogevoro.gitapp.data.repositoty.local.GithubUsersRepoLocal
+import com.girogevoro.gitapp.data.repositoty.web.GithubUsersRepoWeb
 import com.girogevoro.gitapp.domain.GithubUser
 import com.girogevoro.gitapp.domain.GithubUsersRepo
+import com.girogevoro.gitapp.domain.INetworkStatus
 import com.girogevoro.gitapp.domain.UserRepo
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 
-class GithubUsersRepoImpl(private val gitHubApi: GitHubApi) : GithubUsersRepo {
+class GithubUsersRepoImpl(
+    private val localRepo: GithubUsersRepoLocal,
+    private val webRepo: GithubUsersRepoWeb,
+    private val networkStatus: INetworkStatus,
+) : GithubUsersRepo {
 
     override fun getUsers(): Single<List<GithubUser>> =
-        gitHubApi.getAllUsers().map {
-            it.map { userDTO ->
-                userDTO.get()
+        networkStatus.isOnlineSingle().flatMap { isOnline ->
+            if (isOnline) {
+                webRepo.getUsers().flatMap { users ->
+                    Single.fromCallable {
+                        localRepo.putUsers(users)
+                            .subscribe()
+                        users
+                    }
+                }
+            } else {
+                localRepo.getUsers()
             }
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
 
     override fun getUser(login: String): Single<GithubUser> =
-        gitHubApi.getUser(login).map {
-            it.get()
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-
-    override fun getUserRepos(login: String): Single<List<UserRepo>> =
-        gitHubApi.getRepos(login).map {
-            it.map { reposDTO ->
-                reposDTO.get()
+        networkStatus.isOnlineSingle().flatMap { isOnline ->
+            if (isOnline) {
+                webRepo.getUser(login).flatMap { user ->
+                    Single.fromCallable {
+                        localRepo.putUser(user)
+                            .subscribe()
+                        user
+                    }
+                }
+            } else {
+                localRepo.getUser(login)
             }
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+
+    override fun getUserRepos(user: GithubUser): Single<List<UserRepo>> =
+        networkStatus.isOnlineSingle().flatMap { isOnline ->
+            if (isOnline) {
+                webRepo.getUserRepos(user.reposUrl).flatMap { repos ->
+                    Single.fromCallable {
+                        localRepo.putUserRepos(user.id, repos)
+                            .subscribe()
+                        repos
+                    }
+                }
+            } else {
+                localRepo.getUserRepos(user.id)
+            }
+        }
 }

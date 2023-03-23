@@ -7,5 +7,5 @@ interface GithubUsersRepo {
 
     fun getUser(login: String): Single<GithubUser>
 
-    fun getUserRepos(login: String): Single<List<UserRepo>>
+    fun getUserRepos(user: GithubUser): Single<List<UserRepo>>
 }

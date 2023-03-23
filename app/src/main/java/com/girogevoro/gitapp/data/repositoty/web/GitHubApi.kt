@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.data
+package com.girogevoro.gitapp.data.repositoty.web
 
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
@@ -14,5 +14,5 @@ interface GitHubApi {
     fun getUser(@Path("login") login: String): Single<UserDTO>
 
     @GET()
-    fun getRepos(@Url login: String): Single<List<ReposDTO>>
+    fun getRepos(@Url repoUrl: String): Single<List<ReposDTO>>
 }
