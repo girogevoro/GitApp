@@ -3,9 +3,16 @@ package com.girogevoro
 import android.app.Application
 import android.util.Log
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.girogevoro.gitapp.data.GitHubApi
 import com.girogevoro.gitapp.data.GithubUsersRepoImpl
+import com.girogevoro.gitapp.data.NetworkStatusImpl
+import com.girogevoro.gitapp.data.repositoty.local.GithubUsersRepoLocal
+import com.girogevoro.gitapp.data.repositoty.local.GithubUsersRepoLocalImpl
+import com.girogevoro.gitapp.data.repositoty.local.room.GithubDatabase
+import com.girogevoro.gitapp.data.repositoty.web.GitHubApi
+import com.girogevoro.gitapp.data.repositoty.web.GithubUsersRepoWeb
+import com.girogevoro.gitapp.data.repositoty.web.GithubUsersRepoWebImpl
 import com.girogevoro.gitapp.domain.GithubUsersRepo
+import com.girogevoro.gitapp.domain.INetworkStatus
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.google.gson.FieldNamingPolicy
@@ -68,7 +75,18 @@ class App : Application() {
             .create(GitHubApi::class.java)
     }
 
-    val githubUsersRepo: GithubUsersRepo by lazy {
-        GithubUsersRepoImpl(instance.gitHubApi)
+    private val db by lazy { GithubDatabase.getInstance(this) }
+    private val networkStatus : INetworkStatus by lazy { NetworkStatusImpl(this) }
+
+    private val githubUsersRepoLocal: GithubUsersRepoLocal by lazy {
+        GithubUsersRepoLocalImpl(db)
     }
+    private val githubUsersRepoWeb: GithubUsersRepoWeb by lazy {
+        GithubUsersRepoWebImpl(instance.gitHubApi)
+    }
+    val githubUsersRepo: GithubUsersRepo by lazy {
+        GithubUsersRepoImpl(githubUsersRepoLocal, githubUsersRepoWeb, networkStatus)
+    }
+
+
 }

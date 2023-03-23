@@ -1,4 +1,4 @@
-package com.girogevoro.gitapp.data
+package com.girogevoro.gitapp.data.repositoty.web
 
 import com.girogevoro.gitapp.domain.GithubUser
 import com.google.gson.annotations.Expose
@@ -18,5 +18,5 @@ class UserDTO(
     @SerializedName("repos_url")
     val reposUrl: String
 ) {
-    fun get() = GithubUser(id, login, avatarUrl, reposUrl)
+    fun mapToGithubUser() = GithubUser(id, login, avatarUrl, reposUrl)
 }

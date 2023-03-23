@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.girogevoro.App
 import com.girogevoro.gitapp.databinding.FragmentUsersBinding
-import com.girogevoro.gitapp.data.GithubUsersRepoImpl
 import com.girogevoro.gitapp.ui.BackButtonListener
 import com.girogevoro.gitapp.ui.screens.AndroidScreens
 import moxy.MvpAppCompatFragment

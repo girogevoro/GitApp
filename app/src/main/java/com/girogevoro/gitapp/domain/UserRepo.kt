@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserRepo(
+    val id: Long,
     val name: String,
     val forksCount: Int,
     val description: String,

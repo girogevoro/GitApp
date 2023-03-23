@@ -1,6 +1,5 @@
 package com.girogevoro.gitapp.ui.users
 
-import com.girogevoro.gitapp.data.GithubUsersRepoImpl
 import com.girogevoro.gitapp.domain.GithubUser
 import com.girogevoro.gitapp.domain.GithubUsersRepo
 import com.girogevoro.gitapp.ui.screens.IScreens
