@@ -2,40 +2,20 @@ package com.girogevoro
 
 import android.app.Application
 import android.util.Log
-import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.girogevoro.gitapp.data.GithubUsersRepoImpl
-import com.girogevoro.gitapp.data.NetworkStatusImpl
-import com.girogevoro.gitapp.data.repositoty.local.GithubUsersRepoLocal
-import com.girogevoro.gitapp.data.repositoty.local.GithubUsersRepoLocalImpl
-import com.girogevoro.gitapp.data.repositoty.local.room.GithubDatabase
-import com.girogevoro.gitapp.data.repositoty.web.GitHubApi
-import com.girogevoro.gitapp.data.repositoty.web.GithubUsersRepoWeb
-import com.girogevoro.gitapp.data.repositoty.web.GithubUsersRepoWebImpl
-import com.girogevoro.gitapp.domain.GithubUsersRepo
-import com.girogevoro.gitapp.domain.INetworkStatus
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
+import com.girogevoro.gitapp.di.AndroidModule
+import com.girogevoro.gitapp.di.AppComponent
+import com.girogevoro.gitapp.di.DaggerAppComponent
 import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
 class App : Application() {
     companion object {
         lateinit var instance: App
-        private const val BASE_URL = "https://api.github.com"
+
     }
 
-    //Временно до даггера положим это тут
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
+    val appComponent: AppComponent =
+        DaggerAppComponent.builder().androidModule(AndroidModule(this)).build()
 
     override fun onCreate() {
         super.onCreate()
@@ -54,39 +34,5 @@ class App : Application() {
 
         }
     }
-
-    //okhttp3
-    private val okClient = OkHttpClient.Builder()
-        .addNetworkInterceptor(StethoInterceptor())
-        .build()
-
-    private fun createGson() = GsonBuilder()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .excludeFieldsWithoutExposeAnnotation()
-        .create()
-
-    val gitHubApi: GitHubApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okClient)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(createGson()))
-            .build()
-            .create(GitHubApi::class.java)
-    }
-
-    private val db by lazy { GithubDatabase.getInstance(this) }
-    private val networkStatus : INetworkStatus by lazy { NetworkStatusImpl(this) }
-
-    private val githubUsersRepoLocal: GithubUsersRepoLocal by lazy {
-        GithubUsersRepoLocalImpl(db)
-    }
-    private val githubUsersRepoWeb: GithubUsersRepoWeb by lazy {
-        GithubUsersRepoWebImpl(instance.gitHubApi)
-    }
-    val githubUsersRepo: GithubUsersRepo by lazy {
-        GithubUsersRepoImpl(githubUsersRepoLocal, githubUsersRepoWeb, networkStatus)
-    }
-
 
 }

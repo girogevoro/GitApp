@@ -30,10 +30,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsView, BackButtonL
     }
 
     private val userDetailsPresenter: UserDetailsPresenter by moxyPresenter {
-        UserDetailsPresenter(
-            App.instance.router,
-            App.instance.githubUsersRepo
-        )
+           App.instance.appComponent.getUserDetailsPresenter()
     }
     private var _binding: FragmentUserDetailsBinding? = null
     private val binding get() = _binding!!
