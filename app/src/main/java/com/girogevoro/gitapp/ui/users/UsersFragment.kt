@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.girogevoro.App
 import com.girogevoro.gitapp.databinding.FragmentUsersBinding
 import com.girogevoro.gitapp.ui.BackButtonListener
-import com.girogevoro.gitapp.ui.screens.AndroidScreens
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -18,7 +17,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(App.instance.githubUsersRepo, App.instance.router, AndroidScreens())
+        App.instance.appComponent.getUserPresenter()
     }
     var adapter: UsersRVAdapter? = null
     private var vb: FragmentUsersBinding? = null
