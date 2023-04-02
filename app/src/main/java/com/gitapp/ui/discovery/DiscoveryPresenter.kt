@@ -15,7 +15,7 @@ class DiscoveryPresenter(private val router: Router, private val appScreens: App
     }
 
     private val listenerHistory = fun() {
-        router.replaceScreen(appScreens.history())
+        router.navigateTo(appScreens.history())
     }
 
 

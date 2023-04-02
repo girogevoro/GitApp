@@ -32,6 +32,9 @@ class InfoDialogFragment : MvpAppCompatDialogFragment(), InfoContract {
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogFragmentInfoBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener{
+            dismiss()
+        }
         return binding.root
     }
 

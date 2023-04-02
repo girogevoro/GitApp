@@ -1,7 +1,11 @@
 package com.gitapp.di
 
+import android.content.Context
 import com.gitapp.data.InfoApi
 import com.gitapp.data.InfoRepoImpl
+import com.gitapp.data.local.HistoryDatabase
+import com.gitapp.data.local.HistoryRepoImpl
+import com.gitapp.domain.HistoryRepo
 import com.gitapp.domain.InfoRepo
 import dagger.Module
 import dagger.Provides
@@ -34,4 +38,14 @@ class ReposModule {
     @Singleton
     @Provides
     fun provideInfoRepo(infoApi: InfoApi): InfoRepo = InfoRepoImpl(infoApi)
+
+    @Singleton
+    @Provides
+    fun provideHistoryDatabase(context: Context): HistoryDatabase =
+        HistoryDatabase.create(context)
+
+    @Singleton
+    @Provides
+    fun provideHistoryRepo(historyDatabase: HistoryDatabase): HistoryRepo =
+        HistoryRepoImpl(historyDatabase)
 }

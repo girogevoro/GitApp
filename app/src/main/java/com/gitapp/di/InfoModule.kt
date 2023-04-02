@@ -1,5 +1,6 @@
 package com.gitapp.di
 
+import com.gitapp.domain.HistoryRepo
 import com.gitapp.domain.InfoRepo
 import com.gitapp.ui.info.InfoDialogFragmentFabric
 import com.gitapp.ui.info.InfoPresenter
@@ -11,7 +12,8 @@ import javax.inject.Singleton
 class InfoModule {
     @Singleton
     @Provides
-    fun provideInfoPresenter(infoRepo: InfoRepo): InfoPresenter = InfoPresenter(infoRepo)
+    fun provideInfoPresenter(infoRepo: InfoRepo, historyRepo: HistoryRepo): InfoPresenter =
+        InfoPresenter(infoRepo, historyRepo)
 
     @Singleton
     @Provides

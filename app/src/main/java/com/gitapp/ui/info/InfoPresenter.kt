@@ -1,11 +1,14 @@
 package com.gitapp.ui.info
 
+import com.gitapp.domain.HistoryInfoEntity
+import com.gitapp.domain.HistoryRepo
 import com.gitapp.domain.InfoRepo
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import java.time.LocalDate
 
-class InfoPresenter(private val infoRepo: InfoRepo) : MvpPresenter<InfoContract>() {
+class InfoPresenter(private val infoRepo: InfoRepo, private val historyRepo: HistoryRepo) :
+    MvpPresenter<InfoContract>() {
     var date: LocalDate? = null
     var disposable: Disposable? = null
 
@@ -15,9 +18,12 @@ class InfoPresenter(private val infoRepo: InfoRepo) : MvpPresenter<InfoContract>
 
     }
 
-    fun getInfo(){
+    fun getInfo() {
         disposable = date?.let { infoRepo.getInfo(it) }?.subscribe({
-            viewState.show("${date?.dayOfMonth} ${date?.month}", it)
+
+            val title = "${date?.dayOfMonth} ${date?.month}"
+            viewState.show(title, it)
+            historyRepo.setHistory(HistoryInfoEntity(0, title, it)).subscribe()
         }, {
             viewState.show("${date?.dayOfMonth} ${date?.month}", "...")
         })

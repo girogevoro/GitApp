@@ -5,14 +5,10 @@
     android:layout_height="match_parent"
     tools:context="com.gitapp.ui.main.MainActivity">
 
-
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp" />
-
-
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
