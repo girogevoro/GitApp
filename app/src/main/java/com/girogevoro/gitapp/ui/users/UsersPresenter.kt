@@ -1,7 +1,8 @@
-package com.girogevoro.gitapp.ui.main
+package com.girogevoro.gitapp.ui.users
 
-import com.girogevoro.gitapp.data.GithubUsersRepo
+import com.girogevoro.gitapp.data.GithubUsersRepoImpl
 import com.girogevoro.gitapp.domain.GithubUser
+import com.girogevoro.gitapp.domain.GithubUsersRepo
 import com.girogevoro.gitapp.ui.screens.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.Disposable
@@ -19,7 +20,7 @@ class UsersPresenter(
         override fun getCount() = users.size
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
-            view.setLogin(user.login)
+            view.setGitUser(user)
         }
     }
 
@@ -31,7 +32,7 @@ class UsersPresenter(
         loadData()
         usersListPresenter.itemClickListener = { itemView ->
             val user = usersListPresenter.users[itemView.pos]
-            router.navigateTo(screens.userDetail(user))
+            router.navigateTo(screens.userDetail(user.login))
         }
     }
 
