@@ -7,7 +7,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 class DiscoveryPresenter() :
-    MvpPresenter<DiscoveryContract>() {
+    MvpPresenter<DiscoveryView>() {
 
     @Inject
     lateinit var router: Router

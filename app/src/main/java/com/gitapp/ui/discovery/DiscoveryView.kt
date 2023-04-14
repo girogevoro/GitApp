@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import java.time.LocalDate
 
-interface DiscoveryContract : MvpView {
+interface DiscoveryView : MvpView {
     @StateStrategyType(SkipStrategy::class)
     fun showInfoDialog(date: LocalDate)
 }

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class HistoryPresenter(
 
-) : MvpPresenter<HistoryContract>(), InfoListPresenter {
+) : MvpPresenter<HistoryView>(), InfoListPresenter {
     @Inject
     lateinit var historyRepo: HistoryRepo
 

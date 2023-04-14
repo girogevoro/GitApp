@@ -12,7 +12,7 @@ import moxy.ktx.moxyPresenter
 import java.time.LocalDate
 
 
-class DiscoveryFragment : MvpAppCompatFragment(), DiscoveryContract, BackButtonListener {
+class DiscoveryFragment : MvpAppCompatFragment(), DiscoveryView, BackButtonListener {
     companion object {
         private const val TAG = "InfoDialogFragment"
 

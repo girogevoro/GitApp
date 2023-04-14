@@ -11,7 +11,7 @@ import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
-class MainActivity : MvpAppCompatActivity(), MainContract {
+class MainActivity : MvpAppCompatActivity(), MainView {
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private val navigator by lazy { AppNavigator(this, R.id.container) }
