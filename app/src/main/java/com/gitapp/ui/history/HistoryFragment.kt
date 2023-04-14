@@ -13,7 +13,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 
-class HistoryFragment() : MvpAppCompatFragment(), HistoryContract, BackButtonListener {
+class HistoryFragment() : MvpAppCompatFragment(), HistoryView, BackButtonListener {
     companion object {
         @JvmStatic
         fun newInstance() =

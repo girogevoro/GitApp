@@ -6,7 +6,7 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 class MainPresenter() :
-    MvpPresenter<MainContract>() {
+    MvpPresenter<MainView>() {
     @Inject
     lateinit var router: Router
 
