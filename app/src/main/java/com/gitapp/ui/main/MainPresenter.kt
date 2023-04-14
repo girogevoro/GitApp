@@ -3,9 +3,15 @@ package com.gitapp.ui.main
 import com.gitapp.ui.AppScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class MainPresenter(private val router: Router, private val appScreen: AppScreens) :
+class MainPresenter() :
     MvpPresenter<MainContract>() {
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var appScreen: AppScreens
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

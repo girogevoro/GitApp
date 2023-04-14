@@ -1,28 +1,26 @@
 package com.gitapp.ui.discovery
 
 import com.gitapp.ui.AppScreens
-import com.gitapp.ui.BackButtonListener
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import java.time.LocalDate
-import java.util.*
+import javax.inject.Inject
 
-class DiscoveryPresenter(private val router: Router, private val appScreens: AppScreens) :
+class DiscoveryPresenter() :
     MvpPresenter<DiscoveryContract>() {
 
-    private val listenerKnow = fun(date: LocalDate) {
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var appScreens: AppScreens
+
+    fun clickKnow(date: LocalDate) {
         viewState.showInfoDialog(date)
     }
 
-    private val listenerHistory = fun() {
+    fun clickHistory() {
         router.navigateTo(appScreens.history())
-    }
-
-
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        viewState.setOnListenerKnow(listenerKnow)
-        viewState.setOnListenerHistory(listenerHistory)
     }
 
     fun backPressed(): Boolean {

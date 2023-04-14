@@ -21,7 +21,10 @@ class HistoryFragment() : MvpAppCompatFragment(), HistoryContract, BackButtonLis
     }
 
     private val presenter: HistoryPresenter by moxyPresenter {
-        App.instance.appComponent.getHistoryPresenter()
+        HistoryPresenter().apply {
+
+            App.instance.appComponent.inject(this)
+        }
     }
     var adapter: HistoryRVAdapter? = null
 
@@ -39,7 +42,7 @@ class HistoryFragment() : MvpAppCompatFragment(), HistoryContract, BackButtonLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.back.setOnClickListener{
+        binding.back.setOnClickListener {
             backPressed()
         }
     }

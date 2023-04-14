@@ -6,12 +6,20 @@ import com.gitapp.ui.AppScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class HistoryPresenter(
-    private val historyRepo: HistoryRepo,
-    private val router: Router,
-    private val appScreens: AppScreens
+
 ) : MvpPresenter<HistoryContract>(), InfoListPresenter {
+    @Inject
+    lateinit var historyRepo: HistoryRepo
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var appScreens: AppScreens
+
     private val list = mutableListOf<HistoryInfoEntity>()
     private var disposable: Disposable? = null
 
@@ -22,8 +30,8 @@ class HistoryPresenter(
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         disposable?.dispose()
+        super.onDestroy()
     }
 
     private fun loadData() {

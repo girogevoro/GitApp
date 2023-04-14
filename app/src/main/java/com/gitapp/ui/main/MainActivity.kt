@@ -1,7 +1,6 @@
 package com.gitapp.ui.main
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import com.girogevoro.App
 import com.girogevoro.gitapp.R
 import com.girogevoro.gitapp.databinding.ActivityMainBinding
@@ -16,7 +15,11 @@ class MainActivity : MvpAppCompatActivity(), MainContract {
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private val navigator by lazy { AppNavigator(this, R.id.container) }
-    private val presenter by moxyPresenter { App.instance.appComponent.getMainPresenter()}
+    private val presenter by moxyPresenter {
+        MainPresenter().apply {
+            App.instance.appComponent.inject(this)
+        }
+    }
 
     private var _biding:ActivityMainBinding? = null
     private val binding get() = _biding!!

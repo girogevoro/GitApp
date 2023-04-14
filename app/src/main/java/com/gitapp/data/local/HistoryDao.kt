@@ -1,6 +1,5 @@
 package com.gitapp.data.local
 
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query

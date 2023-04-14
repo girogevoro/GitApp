@@ -1,11 +1,10 @@
-package com.gitapp.di
+package com.gitapp.di.info.module
 
-import android.content.Context
+import com.girogevoro.App
 import com.gitapp.data.InfoApi
 import com.gitapp.data.InfoRepoImpl
-import com.gitapp.data.local.HistoryDatabase
-import com.gitapp.data.local.HistoryRepoImpl
-import com.gitapp.domain.HistoryRepo
+import com.gitapp.di.info.InfoScope
+import com.gitapp.di.info.InfoScopeContainer
 import com.gitapp.domain.InfoRepo
 import dagger.Module
 import dagger.Provides
@@ -13,21 +12,23 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import javax.inject.Singleton
+import javax.inject.Named
 
 @Module
-class ReposModule {
-    @Suppress("PrivatePropertyName")
-    private val BASE_URL = "http://numbersapi.com"
+class InfoModule {
 
-    @Singleton
+    @Named("base_url")
     @Provides
-    fun provideGitHubApi(): InfoApi {
+    fun provideBaseUrl(): String = "http://numbersapi.com"
+
+    @InfoScope
+    @Provides
+    fun provideGitHubApi(@Named("base_url") baseUrl: String): InfoApi {
         val okClient = OkHttpClient.Builder()
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(okClient)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -35,17 +36,10 @@ class ReposModule {
             .create(InfoApi::class.java)
     }
 
-    @Singleton
+    @InfoScope
     @Provides
     fun provideInfoRepo(infoApi: InfoApi): InfoRepo = InfoRepoImpl(infoApi)
 
-    @Singleton
     @Provides
-    fun provideHistoryDatabase(context: Context): HistoryDatabase =
-        HistoryDatabase.create(context)
-
-    @Singleton
-    @Provides
-    fun provideHistoryRepo(historyDatabase: HistoryDatabase): HistoryRepo =
-        HistoryRepoImpl(historyDatabase)
+    fun provideInfoScopeContainer(app: App): InfoScopeContainer = app
 }

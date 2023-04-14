@@ -1,4 +1,4 @@
-package com.gitapp.di
+package com.gitapp.di.module
 
 import com.gitapp.ui.AppScreens
 import com.github.terrakok.cicerone.Cicerone

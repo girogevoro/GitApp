@@ -5,7 +5,9 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface InfoContract :MvpView{
+interface InfoView :MvpView{
     fun init()
-    fun show(title:String, description:String)
+    fun showInformation(title:String, description:String)
+    fun showLoading()
+    fun showError()
 }

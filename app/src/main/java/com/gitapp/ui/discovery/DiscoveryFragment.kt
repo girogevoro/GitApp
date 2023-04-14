@@ -26,13 +26,12 @@ class DiscoveryFragment : MvpAppCompatFragment(), DiscoveryContract, BackButtonL
 
 
     private val presenter: DiscoveryPresenter by moxyPresenter {
-        App.instance.appComponent.getDiscoveryPresenter()
+        DiscoveryPresenter().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     private val infoDialogFragmentFabric = App.instance.appComponent.getInfoDialogFragmentFabric()
-
-    private var listenerKnow: ((LocalDate) -> Unit)? = null
-    private var listenerHistory: (() -> Unit)? = null
 
 
     override fun onCreateView(
@@ -47,14 +46,12 @@ class DiscoveryFragment : MvpAppCompatFragment(), DiscoveryContract, BackButtonL
         super.onViewCreated(view, savedInstanceState)
         hideTheYear()
         binding.discoverButton.setOnClickListener {
-            listenerKnow?.apply {
-                val date = binding.dateDatePicker.let {
-                    LocalDate.of(it.year, it.month + 1, it.dayOfMonth)
-                }
-                invoke(date)
+            val date = binding.dateDatePicker.let {
+                LocalDate.of(it.year, it.month + 1, it.dayOfMonth)
             }
+            presenter.clickKnow(date)
         }
-        binding.historyFab.setOnClickListener { listenerHistory?.invoke() }
+        binding.historyFab.setOnClickListener { presenter.clickHistory() }
     }
 
     private fun hideTheYear() {
@@ -73,14 +70,6 @@ class DiscoveryFragment : MvpAppCompatFragment(), DiscoveryContract, BackButtonL
     }
 
     override fun backPressed() = presenter.backPressed()
-
-    override fun setOnListenerKnow(listener: (LocalDate) -> Unit) {
-        listenerKnow = listener
-    }
-
-    override fun setOnListenerHistory(listener: () -> Unit) {
-        listenerHistory = listener
-    }
 
     override fun showInfoDialog(date: LocalDate) {
         infoDialogFragmentFabric.create(date).show(parentFragmentManager, TAG)
