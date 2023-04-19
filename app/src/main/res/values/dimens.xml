@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_container">8dp</dimen>
+    <dimen name="margin_top_description">16dp</dimen>
+    <dimen name="padding_dialog">48dp</dimen>
+    <dimen name="min_width_dialog">150dp</dimen>
+    <dimen name="min_height_dialog">350dp</dimen>
+    <dimen name="margin_item_history">16dp</dimen>
+    <dimen name="margin_button">48dp</dimen>
+</resources>

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">GitApp</string>
+    <string name="app_name">WhatWasWhere</string>
+    <string name="discover">Узнать</string>
+    <string name="find_out_what_was_in">Что было в:</string>
+    <string name="history">История</string>
+    <string name="back">назад</string>
+    <string name="error">"Ошибка приема данных"</string>
 </resources>
